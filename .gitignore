@@ -1,0 +1,56 @@
+# Environment
+.env
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data
+data/raw/*
+data/processed/*
+!data/raw/resumes/.gitkeep
+!data/raw/jobs/.gitkeep
+
+# Models
+models/*
+*.pt
+*.pth
+*.bin
+*.safetensors
+
+# Logs
+logs/*
+*.log
+
+# MLflow
+mlruns/
+mlflow.db
+
+# Database
+*.db
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment variables
+*.env
+
+# Temporary
+temp/
+tmp/
