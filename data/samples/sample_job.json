@@ -1,0 +1,46 @@
+{
+  "job_id": "job_001",
+  "title": "Data Scientist",
+  "company": "ABC Technologies",
+  "description": "We are looking for a Data Scientist to join our AI and analytics team. The candidate will develop machine learning models, perform exploratory data analysis, build predictive solutions, and work with large datasets. The ideal candidate should have strong programming and analytical skills and experience deploying machine learning solutions into production environments.",
+  "required_skills": [
+    "Python",
+    "SQL",
+    "Machine Learning",
+    "Pandas",
+    "NumPy",
+    "Scikit-learn",
+    "XGBoost",
+    "Exploratory Data Analysis",
+    "Statistics"
+  ],
+  "preferred_skills": [
+    "Deep Learning",
+    "TensorFlow",
+    "PyTorch",
+    "FastAPI",
+    "Docker",
+    "AWS",
+    "MLflow",
+    "DVC"
+  ],
+  "minimum_experience": 1,
+  "education": "Bachelor's degree in Computer Science, Data Science, Statistics, Mathematics, Engineering, or a related field.",
+  "keywords": [
+    "Data Scientist",
+    "Python",
+    "SQL",
+    "Machine Learning",
+    "Data Science",
+    "Predictive Modeling",
+    "Pandas",
+    "NumPy",
+    "Scikit-learn",
+    "XGBoost",
+    "EDA",
+    "Statistics",
+    "Deep Learning",
+    "AWS",
+    "Docker"
+  ]
+}
