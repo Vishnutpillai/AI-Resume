@@ -1,6 +1,13 @@
+#Phase 1: Core dependencies
 fastapi
 uvicorn[standard]
 pydantic
 pydantic-settings
 python-dotenv
 loguru
+
+#Phase 2
+pypdf
+python-docx
+pillow
+pytesseract

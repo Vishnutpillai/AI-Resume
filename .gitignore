@@ -54,3 +54,11 @@ htmlcov/
 # Temporary
 temp/
 tmp/
+
+# Resume test files
+data/samples/*.pdf
+data/samples/*.docx
+data/samples/*.jpg
+data/samples/*.jpeg
+data/samples/*.png
+data/samples/*.txt

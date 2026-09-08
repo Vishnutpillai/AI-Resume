@@ -1,0 +1,14 @@
+{
+    "name": "John Doe",
+    "skills": [
+        "Python",
+        "SQL"
+    ],
+    "experience": [
+        {
+            "role": "Data Scientist",
+            "company": "ABC Company",
+            "years": 2
+        }
+    ]
+}

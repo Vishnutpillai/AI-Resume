@@ -21,6 +21,8 @@ class Settings(BaseSettings):
 
     log_level: str = "INFO"
 
+    tesseract_cmd: str = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
