@@ -11,3 +11,6 @@ pypdf
 python-docx
 pillow
 pytesseract
+
+#phase 3
+sentence-transformers
