@@ -14,3 +14,8 @@ pytesseract
 
 #phase 3
 sentence-transformers
+
+#Phase 4
+faiss-cpu
+rank-bm25
+ollama
