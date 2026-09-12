@@ -19,3 +19,9 @@ sentence-transformers
 faiss-cpu
 rank-bm25
 ollama
+
+#phase 5
+sqlalchemy
+sqlalchemy
+streamlit
+requests
