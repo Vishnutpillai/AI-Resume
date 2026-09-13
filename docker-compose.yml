@@ -1,0 +1,39 @@
+services:
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: resume-matcher-api
+
+    ports:
+      - "8001:8000"
+
+    environment:
+      API_URL: http://api:8000
+      DATABASE_URL: sqlite:///./resume_matcher.db
+
+    volumes:
+      - ./resume_matcher.db:/app/resume_matcher.db
+
+    restart: unless-stopped
+
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+
+    container_name: resume-matcher-frontend
+
+    ports:
+      - "8502:8501"
+
+    environment:
+      API_URL: http://api:8000
+
+    depends_on:
+      - api
+
+    restart: unless-stopped

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import sys
 import tempfile
 from pathlib import Path
@@ -32,7 +33,10 @@ from src.extraction.jd_extractor import extract_job
 # CONFIGURATION
 # ============================================================
 
-DEFAULT_API_URL = "http://127.0.0.1:8000"
+DEFAULT_API_URL = os.getenv(
+    "API_URL",
+    "http://127.0.0.1:8000",
+)
 
 
 # ============================================================
