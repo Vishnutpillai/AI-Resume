@@ -1,11 +1,15 @@
+from __future__ import annotations
+
+import tempfile
 from pathlib import Path
-from tempfile import gettempdir
 
 from fastapi import APIRouter
 from fastapi.responses import FileResponse
 
 from app.schemas.resume import ResumeProfile
-from app.services.resume_export_service import ResumeExportService
+from app.services.resume_export_service import (
+    ResumeExportService,
+)
 
 
 router = APIRouter(
@@ -14,27 +18,50 @@ router = APIRouter(
 )
 
 
-@router.post("/docx")
+@router.post(
+    "/docx",
+    response_class=FileResponse,
+)
 def export_docx(
     resume: ResumeProfile,
 ):
-    output_path = (
-        Path(gettempdir())
-        / "optimized_resume.docx"
-    )
+    """
+    Export a ResumeProfile as a DOCX file.
+
+    FastAPI validates ResumeProfile automatically.
+    Invalid request bodies therefore return HTTP 422.
+    """
 
     service = ResumeExportService()
+
+    # Create a temporary output file.
+    temp_directory = Path(
+        tempfile.gettempdir()
+    ) / "intelligent_resume_job_matcher"
+
+    temp_directory.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    output_path = (
+        temp_directory
+        / f"{resume.candidate_id}_resume.docx"
+    )
+
 
     service.export_to_docx(
         resume=resume,
         output_path=str(output_path),
     )
 
+
     return FileResponse(
-        path=output_path,
+        path=str(output_path),
         media_type=(
-            "application/vnd.openxmlformats-officedocument."
+            "application/"
+            "vnd.openxmlformats-officedocument."
             "wordprocessingml.document"
         ),
-        filename="optimized_resume.docx",
+        filename="resume.docx",
     )

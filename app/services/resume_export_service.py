@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 from pathlib import Path
 
-from app.schemas import resume
 from docx import Document
 
 from app.schemas.resume import ResumeProfile
@@ -8,7 +9,7 @@ from app.schemas.resume import ResumeProfile
 
 class ResumeExportService:
     """
-    Convert a ResumeProfile into a DOCX document.
+    Export ResumeProfile objects to DOCX.
     """
 
     def export_to_docx(
@@ -16,10 +17,30 @@ class ResumeExportService:
         resume: ResumeProfile,
         output_path: str,
     ) -> str:
-        if not resume:
-            raise ValueError("Resume profile is required.")
+        """
+        Create a DOCX file from a ResumeProfile.
 
-        path = Path(output_path)
+        Returns:
+            Absolute output path as a string.
+        """
+
+        if resume is None:
+            raise ValueError(
+                "Resume profile is required."
+            )
+
+        if not isinstance(
+            resume,
+            ResumeProfile,
+        ):
+            raise TypeError(
+                "resume must be a ResumeProfile."
+            )
+
+        path = Path(
+            output_path
+        )
+
         path.parent.mkdir(
             parents=True,
             exist_ok=True,
@@ -27,117 +48,224 @@ class ResumeExportService:
 
         document = Document()
 
+        # ====================================================
+        # NAME
+        # ====================================================
+
         if resume.name:
+
             document.add_heading(
                 resume.name,
                 level=1,
             )
 
+
+        # ====================================================
+        # SUMMARY
+        # ====================================================
+
         if resume.summary:
+
             document.add_heading(
                 "Summary",
                 level=2,
             )
+
             document.add_paragraph(
                 resume.summary
             )
 
+
+        # ====================================================
+        # SKILLS
+        # ====================================================
+
         if resume.skills:
+
             document.add_heading(
                 "Skills",
                 level=2,
             )
+
             document.add_paragraph(
-                ", ".join(resume.skills)
+                ", ".join(
+                    resume.skills
+                )
             )
 
+
+        # ====================================================
+        # EXPERIENCE
+        # ====================================================
+
         if resume.experience:
+
             document.add_heading(
                 "Experience",
                 level=2,
             )
 
             for experience in resume.experience:
-                title = experience.role
+
+                paragraph = (
+                    document.add_paragraph()
+                )
+
+                title_parts = []
+
+                if experience.role:
+                    title_parts.append(
+                        experience.role
+                    )
 
                 if experience.company:
-                    title += f" — {experience.company}"
+                    title_parts.append(
+                        experience.company
+                    )
 
-                paragraph = document.add_paragraph()
+                title = " — ".join(
+                    title_parts
+                )
 
-                paragraph.add_run(
-                    title
-                ).bold = True
+                if title:
+
+                    paragraph.add_run(
+                        title
+                    ).bold = True
+
 
                 if experience.years:
+
                     paragraph.add_run(
                         f" ({experience.years:g} years)"
                     )
 
+
+        # ====================================================
+        # PROJECTS
+        # ====================================================
+
         if resume.projects:
+
             document.add_heading(
                 "Projects",
                 level=2,
             )
 
             for project in resume.projects:
-                paragraph = document.add_paragraph()
 
-                paragraph.add_run(
-                    project.name
-                ).bold = True
+                # Project heading/content paragraph
+                paragraph = (
+                    document.add_paragraph()
+                )
+
+                if project.name:
+
+                    paragraph.add_run(
+                        project.name
+                    ).bold = True
+
 
                 if project.description:
+
                     paragraph.add_run(
                         f" — {project.description}"
                     )
 
+
+                # Technologies
                 if project.technologies:
-                    paragraph.add_run(
-                        " | Technologies: "
-                        + ", ".join(project.technologies)
+
+                    technology_paragraph = (
+                        document.add_paragraph()
                     )
 
+                    technology_paragraph.add_run(
+                        "Technologies: "
+                    ).bold = True
+
+                    technology_paragraph.add_run(
+                        ", ".join(
+                            project.technologies
+                        )
+                    )
+
+
+        # ====================================================
+        # EDUCATION
+        # ====================================================
+
         if resume.education:
+
             document.add_heading(
                 "Education",
                 level=2,
             )
 
             for education in resume.education:
-                education_text = education.degree
+
+                paragraph = (
+                    document.add_paragraph()
+                )
+
+                parts = []
+
+                if education.degree:
+                    parts.append(
+                        education.degree
+                    )
 
                 if education.field:
-                    education_text += (
-                        f" in {education.field}"
+                    parts.append(
+                        education.field
                     )
 
                 if education.institution:
-                    education_text += (
-                        f" — {education.institution}"
+                    parts.append(
+                        education.institution
                     )
 
                 if education.year:
-                    education_text += (
-                        f" ({education.year})"
+                    parts.append(
+                        str(education.year)
                     )
 
-                document.add_paragraph(
-                    education_text
-                )
+                if parts:
+
+                    paragraph.add_run(
+                        " | ".join(parts)
+                    )
+
+
+        # ====================================================
+        # CERTIFICATIONS
+        # ====================================================
 
         if resume.certifications:
+
             document.add_heading(
                 "Certifications",
                 level=2,
             )
 
-            for certification in resume.certifications:
+            for certification in (
+                resume.certifications
+            ):
+
                 document.add_paragraph(
                     certification,
                     style="List Bullet",
                 )
 
-        document.save(path)
 
-        return str(path)
+        # ====================================================
+        # SAVE
+        # ====================================================
+
+        document.save(
+            str(path)
+        )
+
+        return str(
+            path
+        )

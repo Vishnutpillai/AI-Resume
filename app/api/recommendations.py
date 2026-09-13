@@ -1,10 +1,10 @@
-from fastapi import APIRouter
+from __future__ import annotations
+
+from fastapi import APIRouter, HTTPException
 
 from app.schemas.api import JobRecommendationRequest
-from app.schemas.job import JobProfile
-from app.schemas.resume import ResumeProfile
 from app.services.job_recommendation_service import (
-    JobRecommendationService,
+    recommend_jobs,
 )
 
 
@@ -15,29 +15,42 @@ router = APIRouter(
 
 
 @router.post("")
-def recommend_jobs(
+def recommend(
     request: JobRecommendationRequest,
 ) -> dict[str, object]:
-    resume = ResumeProfile.model_validate(
-        request.resume
-    )
+    """
+    Rank multiple job descriptions against a resume.
+    """
 
-    jobs = [
-        JobProfile.model_validate(job)
-        for job in request.jobs
-    ]
+    try:
 
-    service = JobRecommendationService()
+        result = recommend_jobs(
+            resume=request.resume,
+            resume_text=request.resume_text,
+            jobs=request.jobs,
+            job_texts=request.job_texts,
+        )
 
-    results = service.recommend(
-        resume=resume,
-        resume_text=request.resume_text,
-        jobs=jobs,
-        job_texts=request.job_texts,
-    )
+        return result
 
-    return {
-        "candidate_id": resume.candidate_id,
-        "total_jobs": len(results),
-        "recommendations": results,
-    }
+    except ValueError as exc:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(exc),
+        ) from exc
+
+    except Exception as exc:
+
+        print(
+            "Job recommendation error:",
+            repr(exc),
+        )
+
+        raise HTTPException(
+            status_code=500,
+            detail=(
+                "Job recommendation processing failed. "
+                "Check the FastAPI console for the traceback."
+            ),
+        ) from exc

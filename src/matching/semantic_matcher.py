@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -7,11 +9,14 @@ from app.core.config import settings
 class SemanticMatcher:
     """
     Calculate semantic similarity between resume and job description.
+
+    The SentenceTransformer model is cached so it is loaded only once
+    per model name instead of being initialized for every comparison.
     """
 
     def __init__(self, model_name: str | None = None):
         self.model_name = model_name or settings.embedding_model
-        self.model = SentenceTransformer(self.model_name)
+        self.model = get_embedding_model(self.model_name)
 
     def calculate_similarity(
         self,
@@ -28,24 +33,36 @@ class SemanticMatcher:
         if not resume_text or not job_text:
             return 0.0
 
-        resume_embedding = self.model.encode(
-            [resume_text],
-            normalize_embeddings=True,
-        )
-
-        job_embedding = self.model.encode(
-            [job_text],
+        embeddings = self.model.encode(
+            [resume_text, job_text],
             normalize_embeddings=True,
         )
 
         similarity = cosine_similarity(
-            resume_embedding,
-            job_embedding,
+            [embeddings[0]],
+            [embeddings[1]],
         )[0][0]
 
-        similarity = max(0.0, min(1.0, float(similarity)))
+        similarity = max(
+            0.0,
+            min(1.0, float(similarity)),
+        )
 
         return round(similarity * 100, 2)
+
+
+@lru_cache(maxsize=4)
+def get_embedding_model(
+    model_name: str,
+) -> SentenceTransformer:
+    """
+    Load and cache the embedding model.
+
+    This prevents repeated Hugging Face/model initialization during
+    multiple job comparisons in the same process.
+    """
+
+    return SentenceTransformer(model_name)
 
 
 def calculate_semantic_score(

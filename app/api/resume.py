@@ -15,7 +15,6 @@ def analyze_resume(
 ) -> dict[str, object]:
     return {
         "candidate_id": request.candidate_id,
-        "name": request.name,
         "message": "Resume received successfully.",
         "text_length": len(request.resume_text),
         "skills": request.skills,
