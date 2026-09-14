@@ -231,7 +231,7 @@ Docker Compose provides local multi-container execution and service-to-service c
 ### Architecture Image
 
 
-![System Architecture](docs/images/architecture.png)
+![System Architecture](images/architecture.png)
 
 ---
 
