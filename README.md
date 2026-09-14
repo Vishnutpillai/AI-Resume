@@ -16,7 +16,7 @@
 <p align="center">
   <a href="https://github.com/Vishnutpillai">GitHub</a> •
   <a href="https://www.linkedin.com/in/vishnu-t-pillai">LinkedIn</a>•
-  <a href="Vishnutpillai11@gmail.com](mailto:Vishnutpillai11@gmail.com)">Gmail</a>
+  <a href="mailto:vishnutpillai11@gmail.com">Gmail</a>
 </p>
 
 ---
@@ -1000,5 +1000,5 @@ to:
 <p align="center">
   <a href="https://github.com/Vishnutpillai">GitHub</a> •
   <a href="https://www.linkedin.com/in/vishnu-t-pillai">LinkedIn</a>•
-   <a href="Vishnutpillai11@gmail.com](mailto:Vishnutpillai11@gmail.com)">Gmail</a>
+   <a href="mailto:vishnutpillai11@gmail.com">Gmail</a>
 </p>
