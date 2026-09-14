@@ -230,11 +230,6 @@ Docker Compose provides local multi-container execution and service-to-service c
 
 ### Architecture Image
 
-> Add the architecture diagram screenshot/render here after placing the image at `images/architecture.png`.
-
-```md
-![System Architecture](images/architecture.png)
-```
 
 ![System Architecture](docs/images/architecture.png)
 
@@ -257,11 +252,6 @@ The Streamlit interface provides an end-to-end workflow for:
 
 ### UI Screenshot
 
-> Add the main Streamlit screenshot at `docs/images/streamlit-ui.png`.
-
-```md
-![Streamlit UI](images/streamlit-ui.png)
-```
 
 ![Streamlit UI](images/streamlit-ui.png)
 
@@ -272,11 +262,6 @@ The backend exposes the application's core capabilities through REST endpoints w
 
 ### Swagger UI Screenshot
 
-> Add the FastAPI Swagger screenshot at `images/fastapi-swagger.png`.
-
-```md
-![FastAPI Swagger UI](images/fastapi-swagger.png)
-```
 
 ![FastAPI Swagger UI](images/fastapi-swagger.png)
 
